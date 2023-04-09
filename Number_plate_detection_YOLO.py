@@ -38,28 +38,27 @@ def detect_number_plate(img, model, device, conf_thres=0.5, iou_thres=0.45):
     plate = cv2.cvtColor(plate, cv2.COLOR_RGB2BGR)
     return plate
 
-if __name__ == '__main__':
-    # Arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--image', type=str, required=True, help='path to input image')
-    args = parser.parse_args()
 
-    # Load model
-    weights = 'yolov5s.pt' # path to pre-trained weights
-    model = attempt_load(weights, map_location=torch.device('cpu')).autoshape() 
+# Arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--image', type=str, required=True, help='path to input image')
+args = parser.parse_args()
+# Load model
+weights = 'yolov5s.pt' # path to pre-trained weights
+model = attempt_load(weights, map_location=torch.device('cpu')).autoshape() 
 
-    # Select device
-    device = select_device('')
+# Select device
+device = select_device('')
 
-    # Load image
-    img = cv2.imread(args.image)
+# Load image
+img = cv2.imread(args.image)
 
-    # Detect number plate
-    plate = detect_number_plate(img, model, device)
+# Detect number plate
+plate = detect_number_plate(img, model, device)
 
-    if plate is not None:
-        # Display image with detected number plate
-        cv2.imshow('Number Plate Detection', plate)
-        cv2.waitKey(0)
-    else:
-        print('Number plate not found')
+if plate is not None:
+    # Display image with detected number plate
+    cv2.imshow('Number Plate Detection', plate)
+    cv2.waitKey(0)
+else:
+    print('Number plate not found')
